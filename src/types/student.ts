@@ -1,47 +1,42 @@
 
 export interface Student {
-  id: string;
-  // Informações Pessoais
-  nomeCompleto: string;
-  email: string;
-  telefone: string;
-  dataNascimento: string;
-  nacionalidade: string;
-  statusEmigratório: string;
+  id: number;
+  nomeCompleto: string | null;
+  email: string | null;
+  telefone: string | null;
+  statusLista: string | null;
+  fotoPerfil: string | null;
   
-  // Formação e Idiomas
-  formacaoAcademica: string;
-  nivelIngles: string;
-  nivelOutroIdioma: string;
-  outroIdioma: string;
+  // Maintaining existing fields for compatibility with other components
+  // Information below was in the original Student interface
+  dataNascimento?: string;
+  nacionalidade?: string;
+  statusEmigratório?: string;
   
-  // Experiência Profissional
-  experienciaProfissional: string;
-  experienciaCruzeiros: boolean;
-  experienciaHotelaria: boolean;
-  experienciaInternacional: boolean;
+  formacaoAcademica?: string;
+  nivelIngles?: string;
+  nivelOutroIdioma?: string;
+  outroIdioma?: string;
   
-  // Jornada Dentro do Programa
-  dataInscricao: string;
-  statusJornada: string;
-  observacoes: string;
+  experienciaProfissional?: string;
+  experienciaCruzeiros?: boolean;
+  experienciaHotelaria?: boolean;
+  experienciaInternacional?: boolean;
   
-  // Suporte dos Navegadores
-  entrevistaRealizada: boolean;
-  avaliacaoDocumentos: boolean;
-  servicoConsular: boolean;
+  dataInscricao?: string;
+  statusJornada?: string;
+  observacoes?: string;
   
-  // Processos Seletivos
-  processosSeletivos: string;
-  statusProcesso: string;
-  dataEntrevista: string;
+  entrevistaRealizada?: boolean;
+  avaliacaoDocumentos?: boolean;
+  servicoConsular?: boolean;
   
-  // Pós-Embarque
-  dataEmbarque: string;
-  posicaoTrabalhada: string;
-  companhiaCruzeiro: string;
-  navioAtual: string;
+  processosSeletivos?: string;
+  statusProcesso?: string;
+  dataEntrevista?: string;
   
-  // Foto de perfil
-  fotoPerfil?: string;
+  dataEmbarque?: string;
+  posicaoTrabalhada?: string;
+  companhiaCruzeiro?: string;
+  navioAtual?: string;
 }
