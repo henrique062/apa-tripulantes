@@ -1,4 +1,3 @@
-
 import { Student } from "../types/student";
 
 export const mockStudents: Student[] = [
@@ -86,6 +85,7 @@ export const mockStudents: Student[] = [
     dataNascimento: "1990-11-30",
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
+    fotoPerfil: null,
     statusLista: "Em análise documental",
     
     formacaoAcademica: "Tecnólogo em Gastronomia",
