@@ -1,10 +1,11 @@
 
 import React from 'react';
-import { Search, User } from 'lucide-react';
+import { Search, User, RefreshCcw } from 'lucide-react';
 import { useStudents } from '@/context/StudentContext';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 export const StudentsList = () => {
   const { 
@@ -55,6 +56,15 @@ export const StudentsList = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Alunos</h1>
+        <Button 
+          onClick={() => refreshStudents()} 
+          variant="outline" 
+          size="sm"
+          disabled={isLoading}
+        >
+          <RefreshCcw size={16} className="mr-2" />
+          Atualizar
+        </Button>
       </div>
 
       {/* Search Bar */}

@@ -34,6 +34,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
   const fetchStudents = async () => {
     setIsLoading(true);
     setError(null);
+    console.log('Fetching students from Supabase...');
 
     try {
       // Query the Supabase table for student data
@@ -42,10 +43,13 @@ export function StudentProvider({ children }: { children: ReactNode }) {
         .select('ID, A_DADOS_P_NOME_COMPLETO, A_DADOS_P_EMAIL_MATRICULA, A_DADOS_P_TELEFONE, STATUS');
 
       if (error) {
+        console.error('Supabase error:', error);
         throw error;
       }
 
-      if (data) {
+      console.log('Supabase data received:', data);
+
+      if (data && data.length > 0) {
         // Map the database fields to our Student interface
         const mappedStudents: Student[] = data.map(item => ({
           id: item.ID,
@@ -53,22 +57,25 @@ export function StudentProvider({ children }: { children: ReactNode }) {
           email: item.A_DADOS_P_EMAIL_MATRICULA,
           telefone: item.A_DADOS_P_TELEFONE,
           statusLista: item.STATUS,
-          fotoPerfil: null, // No direct mapping for profile photo
-          // Other fields are kept undefined for now
+          fotoPerfil: null, // Explicitly null as we don't have this field in the database
+          // Other fields are undefined for now
         }));
 
+        console.log('Mapped students:', mappedStudents);
         setStudents(mappedStudents);
         setFilteredStudents(mappedStudents);
+      } else {
+        console.log('No students data found');
+        setStudents([]);
+        setFilteredStudents([]);
       }
     } catch (error) {
-      console.error('Erro ao buscar alunos:', error);
+      console.error('Error fetching students:', error);
       setError('Falha ao buscar lista de alunos');
       toast.error("Erro ao carregar alunos");
-      // Fallback to mock data if available in development
-      if (process.env.NODE_ENV === 'development') {
-        setStudents(mockStudents as unknown as Student[]);
-        setFilteredStudents(mockStudents as unknown as Student[]);
-      }
+      // Don't use mock data as fallback - we want to show the error
+      setStudents([]);
+      setFilteredStudents([]);
     } finally {
       setIsLoading(false);
     }
