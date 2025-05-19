@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Search } from 'lucide-react';
+import { Search, User } from 'lucide-react';
 import { useStudents } from '@/context/StudentContext';
 import { Input } from '@/components/ui/input';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export const StudentsList = () => {
   const { filteredStudents, selectStudent, filterStudents, searchQuery } = useStudents();
@@ -44,7 +45,17 @@ export const StudentsList = () => {
                     className="hover:bg-blue-50 cursor-pointer"
                     onClick={() => selectStudent(student)}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">{student.nomeCompleto}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <Avatar className="h-10 w-10 mr-3">
+                          <AvatarImage src={student.fotoPerfil} alt={student.nomeCompleto} />
+                          <AvatarFallback className="bg-blue-100 text-blue-600">
+                            <User size={18} />
+                          </AvatarFallback>
+                        </Avatar>
+                        <span>{student.nomeCompleto}</span>
+                      </div>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">{student.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{student.telefone}</td>
                   </tr>

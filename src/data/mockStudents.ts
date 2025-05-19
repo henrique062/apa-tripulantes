@@ -10,6 +10,7 @@ export const mockStudents: Student[] = [
     dataNascimento: "1992-05-15",
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
+    fotoPerfil: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=250&h=250&fit=crop",
     
     formacaoAcademica: "Bacharel em Turismo",
     nivelIngles: "Avançado",
@@ -46,6 +47,7 @@ export const mockStudents: Student[] = [
     dataNascimento: "1995-08-23",
     nacionalidade: "Brasileira",
     statusEmigratório: "Passaporte e Visto B1/B2",
+    fotoPerfil: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=250&fit=crop",
     
     formacaoAcademica: "Bacharel em Hotelaria",
     nivelIngles: "Fluente",
@@ -118,6 +120,7 @@ export const mockStudents: Student[] = [
     dataNascimento: "1993-07-12",
     nacionalidade: "Brasileira",
     statusEmigratório: "Passaporte e Visto C1/D",
+    fotoPerfil: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=250&h=250&fit=crop",
     
     formacaoAcademica: "Bacharel em Administração",
     nivelIngles: "Fluente",
@@ -154,6 +157,7 @@ export const mockStudents: Student[] = [
     dataNascimento: "1991-03-25",
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
+    fotoPerfil: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=250&h=250&fit=crop",
     
     formacaoAcademica: "Técnico em Hospedagem",
     nivelIngles: "Avançado",

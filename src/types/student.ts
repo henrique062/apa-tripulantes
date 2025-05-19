@@ -41,4 +41,7 @@ export interface Student {
   posicaoTrabalhada: string;
   companhiaCruzeiro: string;
   navioAtual: string;
+  
+  // Foto de perfil
+  fotoPerfil?: string;
 }
