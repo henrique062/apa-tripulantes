@@ -1,22 +1,55 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, LogIn } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Em uma implementação real, aqui seria feita a autenticação
-    // Por enquanto, apenas redireciona para a página principal
-    navigate("/");
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast({
+          title: "Erro de autenticação",
+          description: "Email ou senha inválidos.",
+          variant: "destructive",
+        });
+        console.error("Erro de login:", error.message);
+      } else if (data.user) {
+        toast({
+          title: "Login realizado com sucesso",
+          description: "Bem-vindo de volta!",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao tentar fazer login.",
+        variant: "destructive",
+      });
+      console.error("Erro inesperado:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,8 +109,20 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                <LogIn className="mr-2 h-4 w-4" /> Entrar
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="animate-spin mr-2">⏳</span> Entrando...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="mr-2 h-4 w-4" /> Entrar
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
