@@ -24,7 +24,7 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-8">
           <img 
-            src="/lovable-uploads/fc9cc6f6-436a-4705-ac76-d65aa447142f.png"
+            src="/lovable-uploads/062b848e-e9da-46b0-a3a6-44d89d68e633.png"
             alt="Logo" 
             className="w-32 h-32"
           />
