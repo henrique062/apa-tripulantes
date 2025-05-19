@@ -3,7 +3,7 @@ import { Student } from "../types/student";
 
 export const mockStudents: Student[] = [
   {
-    id: "1",
+    id: 1,
     nomeCompleto: "João Oliveira",
     email: "joao.oliveira@email.com",
     telefone: "(11) 98765-4321",
@@ -11,6 +11,7 @@ export const mockStudents: Student[] = [
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
     fotoPerfil: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=250&h=250&fit=crop",
+    statusLista: "Em processo seletivo",
     
     formacaoAcademica: "Bacharel em Turismo",
     nivelIngles: "Avançado",
@@ -40,7 +41,7 @@ export const mockStudents: Student[] = [
     navioAtual: ""
   },
   {
-    id: "2",
+    id: 2,
     nomeCompleto: "Maria Santos",
     email: "maria.santos@email.com",
     telefone: "(21) 99876-5432",
@@ -48,6 +49,7 @@ export const mockStudents: Student[] = [
     nacionalidade: "Brasileira",
     statusEmigratório: "Passaporte e Visto B1/B2",
     fotoPerfil: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=250&h=250&fit=crop",
+    statusLista: "Aprovado",
     
     formacaoAcademica: "Bacharel em Hotelaria",
     nivelIngles: "Fluente",
@@ -77,13 +79,14 @@ export const mockStudents: Student[] = [
     navioAtual: "MSC Grandiosa"
   },
   {
-    id: "3",
+    id: 3,
     nomeCompleto: "Carlos Mendes",
     email: "carlos.mendes@email.com",
     telefone: "(51) 97654-3210",
     dataNascimento: "1990-11-30",
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
+    statusLista: "Em análise documental",
     
     formacaoAcademica: "Tecnólogo em Gastronomia",
     nivelIngles: "Intermediário",
@@ -113,7 +116,7 @@ export const mockStudents: Student[] = [
     navioAtual: ""
   },
   {
-    id: "4",
+    id: 4,
     nomeCompleto: "Ana Ferreira",
     email: "ana.ferreira@email.com",
     telefone: "(31) 98765-4321",
@@ -121,6 +124,7 @@ export const mockStudents: Student[] = [
     nacionalidade: "Brasileira",
     statusEmigratório: "Passaporte e Visto C1/D",
     fotoPerfil: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=250&h=250&fit=crop",
+    statusLista: "Embarcado",
     
     formacaoAcademica: "Bacharel em Administração",
     nivelIngles: "Fluente",
@@ -150,7 +154,7 @@ export const mockStudents: Student[] = [
     navioAtual: "Harmony of the Seas"
   },
   {
-    id: "5",
+    id: 5,
     nomeCompleto: "Pedro Almeida",
     email: "pedro.almeida@email.com",
     telefone: "(41) 99876-5432",
@@ -158,6 +162,7 @@ export const mockStudents: Student[] = [
     nacionalidade: "Brasileiro",
     statusEmigratório: "Passaporte Regular",
     fotoPerfil: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=250&h=250&fit=crop",
+    statusLista: "Entrevista agendada",
     
     formacaoAcademica: "Técnico em Hospedagem",
     nivelIngles: "Avançado",
