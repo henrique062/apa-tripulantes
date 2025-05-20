@@ -1,3 +1,4 @@
+
 import { Student } from "../types/student";
 
 export const mockStudents: Student[] = [
@@ -5,6 +6,7 @@ export const mockStudents: Student[] = [
     id: 1,
     nomeCompleto: "João Oliveira",
     email: "joao.oliveira@email.com",
+    emailHotmart: "joao.oliveira.hotmart@email.com",
     telefone: "(11) 98765-4321",
     dataNascimento: "1992-05-15",
     nacionalidade: "Brasileiro",
@@ -43,6 +45,7 @@ export const mockStudents: Student[] = [
     id: 2,
     nomeCompleto: "Maria Santos",
     email: "maria.santos@email.com",
+    emailHotmart: "maria.santos.hotmart@email.com",
     telefone: "(21) 99876-5432",
     dataNascimento: "1995-08-23",
     nacionalidade: "Brasileira",
@@ -81,6 +84,7 @@ export const mockStudents: Student[] = [
     id: 3,
     nomeCompleto: "Carlos Mendes",
     email: "carlos.mendes@email.com",
+    emailHotmart: null,
     telefone: "(51) 97654-3210",
     dataNascimento: "1990-11-30",
     nacionalidade: "Brasileiro",
@@ -119,6 +123,7 @@ export const mockStudents: Student[] = [
     id: 4,
     nomeCompleto: "Ana Ferreira",
     email: "ana.ferreira@email.com",
+    emailHotmart: "ana.ferreira.hotmart@email.com",
     telefone: "(31) 98765-4321",
     dataNascimento: "1993-07-12",
     nacionalidade: "Brasileira",
@@ -157,6 +162,7 @@ export const mockStudents: Student[] = [
     id: 5,
     nomeCompleto: "Pedro Almeida",
     email: "pedro.almeida@email.com",
+    emailHotmart: "pedro.almeida.hotmart@email.com",
     telefone: "(41) 99876-5432",
     dataNascimento: "1991-03-25",
     nacionalidade: "Brasileiro",
