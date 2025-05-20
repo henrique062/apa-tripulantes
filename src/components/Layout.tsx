@@ -6,7 +6,8 @@ import { StudentProvider } from '@/context/StudentContext';
 import { StudentsPage } from '@/components/StudentsPage';
 
 export const Layout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Alterando o estado inicial para false (minimizado)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -37,7 +38,10 @@ export const Layout = () => {
 
           {/* Sidebar Links */}
           <nav className="mt-6">
-            <div className="px-4 py-3 flex items-center text-white bg-blue-700 rounded-r-md">
+            <div className={cn(
+              "px-4 py-3 flex items-center text-white bg-blue-700 rounded-r-md",
+              !sidebarOpen && "justify-center"
+            )}>
               <Users size={20} />
               <span className={cn("ml-3 whitespace-nowrap", !sidebarOpen && "opacity-0")}>Alunos</span>
             </div>
