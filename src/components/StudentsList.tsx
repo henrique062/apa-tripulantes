@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, User, RefreshCcw, Filter, X } from 'lucide-react';
 import { useStudents } from '@/context/StudentContext';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ResizableHeader } from '@/components/ResizableHeader';
+
+// Table column definition type
+interface ColumnDefinition {
+  id: string;
+  label: string;
+  width: number;
+}
 
 export const StudentsList = () => {
   const { 
@@ -32,6 +40,42 @@ export const StudentsList = () => {
     error,
     refreshStudents
   } = useStudents();
+
+  // Initial column definitions
+  const defaultColumns: ColumnDefinition[] = [
+    { id: 'name', label: 'Nome Completo', width: 250 },
+    { id: 'email', label: 'Email', width: 200 },
+    { id: 'emailHotmart', label: 'Email Hotmart', width: 200 },
+    { id: 'phone', label: 'Telefone', width: 150 },
+    { id: 'status', label: 'Status', width: 120 },
+  ];
+
+  // State for column widths
+  const [columns, setColumns] = useState<ColumnDefinition[]>(defaultColumns);
+
+  // Load column widths from localStorage on mount
+  useEffect(() => {
+    const savedColumns = localStorage.getItem('studentColumnsWidth');
+    if (savedColumns) {
+      try {
+        const parsedColumns = JSON.parse(savedColumns);
+        setColumns(parsedColumns);
+      } catch (e) {
+        console.error('Error parsing saved column widths', e);
+      }
+    }
+  }, []);
+
+  // Handle column width change
+  const handleColumnWidthChange = (id: string, width: number) => {
+    const updatedColumns = columns.map(col => 
+      col.id === id ? { ...col, width } : col
+    );
+    setColumns(updatedColumns);
+    
+    // Save to localStorage
+    localStorage.setItem('studentColumnsWidth', JSON.stringify(updatedColumns));
+  };
 
   // Helper function to determine student status
   const getStudentStatus = (student) => {
@@ -106,11 +150,39 @@ export const StudentsList = () => {
           <table className="w-full">
             <thead className="bg-gray-50 text-gray-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Nome Completo</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email Hotmart</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Telefone</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                <ResizableHeader 
+                  id="name" 
+                  width={columns.find(c => c.id === 'name')?.width}
+                  onWidthChange={handleColumnWidthChange}
+                >
+                  Nome Completo
+                </ResizableHeader>
+                <ResizableHeader 
+                  id="email"
+                  width={columns.find(c => c.id === 'email')?.width}
+                  onWidthChange={handleColumnWidthChange}
+                >
+                  Email
+                </ResizableHeader>
+                <ResizableHeader 
+                  id="emailHotmart"
+                  width={columns.find(c => c.id === 'emailHotmart')?.width}
+                  onWidthChange={handleColumnWidthChange}
+                >
+                  Email Hotmart
+                </ResizableHeader>
+                <ResizableHeader 
+                  id="phone"
+                  width={columns.find(c => c.id === 'phone')?.width}
+                  onWidthChange={handleColumnWidthChange}
+                >
+                  Telefone
+                </ResizableHeader>
+                <ResizableHeader 
+                  id="status"
+                  width={columns.find(c => c.id === 'status')?.width}
+                  onWidthChange={handleColumnWidthChange}
+                >
                   <div className="flex items-center space-x-1">
                     <span>Status</span>
                     <Popover>
@@ -124,8 +196,8 @@ export const StudentsList = () => {
                           <div className="font-medium text-sm">Filtrar por status</div>
                           
                           <Select 
-                            value={statusFilter || ""} 
-                            onValueChange={(value) => filterByStatus(value || null)}
+                            value={statusFilter || "all"} 
+                            onValueChange={(value) => filterByStatus(value === "all" ? null : value)}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecione um status" />
@@ -155,14 +227,14 @@ export const StudentsList = () => {
                       </PopoverContent>
                     </Popover>
                   </div>
-                </th>
+                </ResizableHeader>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {isLoading ? (
                 // Loading skeletons
                 Array(5).fill(0).map((_, index) => (
-                  <tr key={`skeleton-${index}`}>
+                  <tr key={`skeleton-${index}`} className="border-b border-dashed border-gray-100">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Skeleton className="h-10 w-10 rounded-full mr-3" />
@@ -187,7 +259,7 @@ export const StudentsList = () => {
                 filteredStudents.map((student) => (
                   <tr 
                     key={student.id} 
-                    className="hover:bg-blue-50 cursor-pointer"
+                    className="hover:bg-blue-50 cursor-pointer border-b border-dashed border-opacity-20 border-gray-200"
                     onClick={() => selectStudent(student)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
