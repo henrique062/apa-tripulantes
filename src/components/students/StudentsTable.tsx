@@ -36,13 +36,14 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full border-collapse">
           <thead className="bg-gray-50 text-gray-700">
             <tr>
               <ResizableHeader 
                 id="name" 
                 width={columns.find(c => c.id === 'name')?.width}
                 onWidthChange={handleColumnWidthChange}
+                className="border-r border-dashed border-gray-200 border-opacity-50"
               >
                 Nome Completo
               </ResizableHeader>
@@ -50,6 +51,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 id="email"
                 width={columns.find(c => c.id === 'email')?.width}
                 onWidthChange={handleColumnWidthChange}
+                className="border-r border-dashed border-gray-200 border-opacity-50"
               >
                 Email
               </ResizableHeader>
@@ -57,6 +59,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 id="emailHotmart"
                 width={columns.find(c => c.id === 'emailHotmart')?.width}
                 onWidthChange={handleColumnWidthChange}
+                className="border-r border-dashed border-gray-200 border-opacity-50"
               >
                 Email Hotmart
               </ResizableHeader>
@@ -64,6 +67,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
                 id="phone"
                 width={columns.find(c => c.id === 'phone')?.width}
                 onWidthChange={handleColumnWidthChange}
+                className="border-r border-dashed border-gray-200 border-opacity-50"
               >
                 Telefone
               </ResizableHeader>
@@ -80,7 +84,7 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
               </ResizableHeader>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-dashed divide-gray-200 divide-opacity-50">
             {isLoading ? (
               <StudentsTableSkeleton />
             ) : filteredStudents.length > 0 ? (

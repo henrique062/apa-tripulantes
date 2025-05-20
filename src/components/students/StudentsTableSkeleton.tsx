@@ -6,20 +6,20 @@ export const StudentsTableSkeleton: React.FC = () => {
   return (
     <>
       {Array(5).fill(0).map((_, index) => (
-        <tr key={`skeleton-${index}`} className="border-b border-dashed border-gray-100">
-          <td className="px-6 py-4 whitespace-nowrap">
+        <tr key={`skeleton-${index}`} className="border-b border-dashed border-opacity-50 border-gray-200">
+          <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">
             <div className="flex items-center">
               <Skeleton className="h-10 w-10 rounded-full mr-3" />
               <Skeleton className="h-4 w-40" />
             </div>
           </td>
-          <td className="px-6 py-4 whitespace-nowrap">
+          <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">
             <Skeleton className="h-4 w-32" />
           </td>
-          <td className="px-6 py-4 whitespace-nowrap">
+          <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">
             <Skeleton className="h-4 w-32" />
           </td>
-          <td className="px-6 py-4 whitespace-nowrap">
+          <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">
             <Skeleton className="h-4 w-24" />
           </td>
           <td className="px-6 py-4 whitespace-nowrap">

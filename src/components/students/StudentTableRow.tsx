@@ -32,10 +32,10 @@ export const StudentTableRow: React.FC<StudentTableRowProps> = ({ student, onCli
 
   return (
     <tr 
-      className="hover:bg-blue-50 cursor-pointer border-b border-dashed border-opacity-20 border-gray-200"
+      className="hover:bg-blue-50 cursor-pointer border-b border-dashed border-opacity-50 border-gray-200"
       onClick={() => onClick(student)}
     >
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">
         <div className="flex items-center">
           <Avatar className="h-10 w-10 mr-3">
             <AvatarImage src={student.fotoPerfil || ''} alt={student.nomeCompleto || 'Aluno'} />
@@ -46,9 +46,9 @@ export const StudentTableRow: React.FC<StudentTableRowProps> = ({ student, onCli
           <span>{student.nomeCompleto || 'Nome não disponível'}</span>
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">{student.email || 'Email não disponível'}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{student.emailHotmart || 'Email não cadastrado'}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{student.telefone || 'Telefone não disponível'}</td>
+      <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">{student.email || 'Email não disponível'}</td>
+      <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">{student.emailHotmart || 'Email não cadastrado'}</td>
+      <td className="px-6 py-4 whitespace-nowrap border-r border-dashed border-gray-200 border-opacity-50">{student.telefone || 'Telefone não disponível'}</td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span className={getStudentStatus(student).className}>
           {getStudentStatus(student).text}
