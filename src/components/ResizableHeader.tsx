@@ -76,7 +76,7 @@ export const ResizableHeader: React.FC<ResizableHeaderProps> = ({
     >
       {children}
       <div
-        className="absolute top-0 right-0 h-full w-1 cursor-col-resize opacity-0 group-hover:opacity-100 bg-blue-300 hover:bg-blue-400"
+        className="absolute top-0 right-0 h-full w-4 cursor-col-resize opacity-0 group-hover:opacity-100 bg-blue-300/20 hover:bg-blue-400/40 transition-colors"
         onMouseDown={handleMouseDown}
       />
     </th>
