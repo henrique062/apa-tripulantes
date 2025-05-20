@@ -1,24 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, User, RefreshCcw, Filter, X } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 import { useStudents } from '@/context/StudentContext';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ResizableHeader } from '@/components/ResizableHeader';
+import { SearchBar } from '@/components/students/SearchBar';
+import { StudentsTable } from '@/components/students/StudentsTable';
 
 // Table column definition type
 interface ColumnDefinition {
@@ -77,26 +63,6 @@ export const StudentsList = () => {
     localStorage.setItem('studentColumnsWidth', JSON.stringify(updatedColumns));
   };
 
-  // Helper function to determine student status
-  const getStudentStatus = (student) => {
-    if (!student.statusLista) {
-      return { text: "Status desconhecido", className: "text-gray-500" };
-    }
-    
-    // Map status from database to UI status
-    const status = student.statusLista.toUpperCase();
-    
-    if (status === "ATIVO") {
-      return { text: "ATIVO", className: "text-green-600 font-medium" };
-    } else if (status === "INATIVO") {
-      return { text: "INATIVO", className: "text-red-600 font-medium" };
-    } else if (status === "COMPLETE") {
-      return { text: "COMPLETO", className: "text-blue-600 font-medium" };
-    } else {
-      return { text: student.statusLista, className: "text-gray-500" };
-    }
-  };
-
   if (error) {
     return (
       <div className="space-y-6">
@@ -132,168 +98,23 @@ export const StudentsList = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-        <Input
-          type="text"
-          placeholder="Buscar alunos por nome, email ou telefone..."
-          className="pl-10 py-2 w-full rounded-lg"
-          value={searchQuery}
-          onChange={(e) => filterStudents(e.target.value)}
-          disabled={isLoading}
-        />
-      </div>
+      <SearchBar 
+        searchQuery={searchQuery}
+        onSearchChange={filterStudents}
+        isDisabled={isLoading}
+      />
 
-      {/* Students List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 text-gray-700">
-              <tr>
-                <ResizableHeader 
-                  id="name" 
-                  width={columns.find(c => c.id === 'name')?.width}
-                  onWidthChange={handleColumnWidthChange}
-                >
-                  Nome Completo
-                </ResizableHeader>
-                <ResizableHeader 
-                  id="email"
-                  width={columns.find(c => c.id === 'email')?.width}
-                  onWidthChange={handleColumnWidthChange}
-                >
-                  Email
-                </ResizableHeader>
-                <ResizableHeader 
-                  id="emailHotmart"
-                  width={columns.find(c => c.id === 'emailHotmart')?.width}
-                  onWidthChange={handleColumnWidthChange}
-                >
-                  Email Hotmart
-                </ResizableHeader>
-                <ResizableHeader 
-                  id="phone"
-                  width={columns.find(c => c.id === 'phone')?.width}
-                  onWidthChange={handleColumnWidthChange}
-                >
-                  Telefone
-                </ResizableHeader>
-                <ResizableHeader 
-                  id="status"
-                  width={columns.find(c => c.id === 'status')?.width}
-                  onWidthChange={handleColumnWidthChange}
-                >
-                  <div className="flex items-center space-x-1">
-                    <span>Status</span>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-6 w-6">
-                          <Filter size={14} className={statusFilter ? "text-blue-600" : "text-gray-500"} />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-60 p-2" align="start">
-                        <div className="space-y-2">
-                          <div className="font-medium text-sm">Filtrar por status</div>
-                          
-                          <Select 
-                            value={statusFilter || "all"} 
-                            onValueChange={(value) => filterByStatus(value === "all" ? null : value)}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Selecione um status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="all">Todos os status</SelectItem>
-                              {availableStatuses.map((status) => (
-                                <SelectItem key={status} value={status}>
-                                  {status === "COMPLETE" ? "COMPLETO" : status}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          
-                          {statusFilter && (
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="w-full mt-2" 
-                              onClick={() => filterByStatus(null)}
-                            >
-                              <X size={14} className="mr-1" />
-                              Limpar filtro
-                            </Button>
-                          )}
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </ResizableHeader>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {isLoading ? (
-                // Loading skeletons
-                Array(5).fill(0).map((_, index) => (
-                  <tr key={`skeleton-${index}`} className="border-b border-dashed border-gray-100">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Skeleton className="h-10 w-10 rounded-full mr-3" />
-                        <Skeleton className="h-4 w-40" />
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-32" />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-32" />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-24" />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-16" />
-                    </td>
-                  </tr>
-                ))
-              ) : filteredStudents.length > 0 ? (
-                filteredStudents.map((student) => (
-                  <tr 
-                    key={student.id} 
-                    className="hover:bg-blue-50 cursor-pointer border-b border-dashed border-opacity-20 border-gray-200"
-                    onClick={() => selectStudent(student)}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Avatar className="h-10 w-10 mr-3">
-                          <AvatarImage src={student.fotoPerfil || ''} alt={student.nomeCompleto || 'Aluno'} />
-                          <AvatarFallback className="bg-blue-100 text-blue-600">
-                            <User size={18} />
-                          </AvatarFallback>
-                        </Avatar>
-                        <span>{student.nomeCompleto || 'Nome não disponível'}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{student.email || 'Email não disponível'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{student.emailHotmart || 'Email não cadastrado'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{student.telefone || 'Telefone não disponível'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={getStudentStatus(student).className}>
-                        {getStudentStatus(student).text}
-                      </span>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                    Nenhum aluno encontrado
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* Students Table */}
+      <StudentsTable
+        columns={columns}
+        handleColumnWidthChange={handleColumnWidthChange}
+        filteredStudents={filteredStudents}
+        isLoading={isLoading}
+        selectStudent={selectStudent}
+        statusFilter={statusFilter}
+        availableStatuses={availableStatuses}
+        filterByStatus={filterByStatus}
+      />
     </div>
   );
 };
