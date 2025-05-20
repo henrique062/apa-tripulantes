@@ -131,7 +131,7 @@ export const StudentsList = () => {
                               <SelectValue placeholder="Selecione um status" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">Todos os status</SelectItem>
+                              <SelectItem value="all">Todos os status</SelectItem>
                               {availableStatuses.map((status) => (
                                 <SelectItem key={status} value={status}>
                                   {status === "COMPLETE" ? "COMPLETO" : status}

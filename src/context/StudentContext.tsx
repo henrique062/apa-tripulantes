@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { Student } from '../types/student';
 import { toast } from '@/components/ui/sonner';
@@ -111,8 +110,8 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       );
     }
     
-    // Apply status filter if selected
-    if (status) {
+    // Apply status filter if selected and not "all"
+    if (status && status !== "all") {
       filtered = filtered.filter(student => student.statusLista === status);
     }
     
