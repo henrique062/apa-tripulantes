@@ -93,6 +93,7 @@ export const StudentsList = () => {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Nome Completo</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email Hotmart</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Telefone</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
               </tr>
@@ -107,6 +108,9 @@ export const StudentsList = () => {
                         <Skeleton className="h-10 w-10 rounded-full mr-3" />
                         <Skeleton className="h-4 w-40" />
                       </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <Skeleton className="h-4 w-32" />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Skeleton className="h-4 w-32" />
@@ -138,6 +142,7 @@ export const StudentsList = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{student.email || 'Email não disponível'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{student.emailHotmart || 'Email não cadastrado'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{student.telefone || 'Telefone não disponível'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={getStudentStatus(student).className}>
@@ -148,7 +153,7 @@ export const StudentsList = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
                     Nenhum aluno encontrado
                   </td>
                 </tr>

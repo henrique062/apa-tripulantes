@@ -3,6 +3,7 @@ export interface Student {
   id: number;
   nomeCompleto: string | null;
   email: string | null;
+  emailHotmart: string | null; // Added the new property
   telefone: string | null;
   statusLista: string | null;
   fotoPerfil: string | null;

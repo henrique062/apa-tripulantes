@@ -1,6 +1,6 @@
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { Student } from '../types/student';
-import { mockStudents } from '../data/mockStudents';
 import { toast } from '@/components/ui/sonner';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -40,7 +40,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       // Query the Supabase table for student data
       const { data, error } = await supabase
         .from('alunos_dados_completos')
-        .select('ID, A_DADOS_P_NOME_COMPLETO, A_DADOS_P_EMAIL_MATRICULA, A_DADOS_P_TELEFONE, STATUS');
+        .select('ID, A_DADOS_P_NOME_COMPLETO, A_DADOS_P_EMAIL_MATRICULA, A_DADOS_P_EMAIL_MATRICULA_HOTMART, A_DADOS_P_TELEFONE, STATUS');
 
       if (error) {
         console.error('Supabase error:', error);
@@ -55,6 +55,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
           id: item.ID,
           nomeCompleto: item.A_DADOS_P_NOME_COMPLETO,
           email: item.A_DADOS_P_EMAIL_MATRICULA,
+          emailHotmart: item.A_DADOS_P_EMAIL_MATRICULA_HOTMART,
           telefone: item.A_DADOS_P_TELEFONE,
           statusLista: item.STATUS,
           fotoPerfil: null, // Explicitly null as we don't have this field in the database
