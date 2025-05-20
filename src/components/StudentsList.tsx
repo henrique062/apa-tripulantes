@@ -25,11 +25,16 @@ export const StudentsList = () => {
     }
     
     // Map status from database to UI status
-    const status = student.statusLista.toLowerCase();
-    if (status.includes('ativo') || status.includes('embarque') || status.includes('processo')) {
-      return { text: "Ativo", className: "text-green-600 font-medium" };
+    const status = student.statusLista.toUpperCase();
+    
+    if (status === "ATIVO") {
+      return { text: "ATIVO", className: "text-green-600 font-medium" };
+    } else if (status === "INATIVO") {
+      return { text: "INATIVO", className: "text-red-600 font-medium" };
+    } else if (status === "COMPLETE") {
+      return { text: "COMPLETO", className: "text-blue-600 font-medium" };
     } else {
-      return { text: "Inativo", className: "text-gray-500" };
+      return { text: student.statusLista, className: "text-gray-500" };
     }
   };
 
