@@ -10,10 +10,13 @@ interface StudentContextType {
   selectedStudent: Student | null;
   isEditing: boolean;
   searchQuery: string;
+  statusFilter: string | null;
+  availableStatuses: string[];
   isLoading: boolean;
   error: string | null;
   selectStudent: (student: Student | null) => void;
   filterStudents: (query: string) => void;
+  filterByStatus: (status: string | null) => void;
   updateStudent: (updatedStudent: Student) => void;
   startEditing: () => void;
   cancelEditing: () => void;
@@ -28,6 +31,8 @@ export function StudentProvider({ children }: { children: ReactNode }) {
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [availableStatuses, setAvailableStatuses] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,12 +68,21 @@ export function StudentProvider({ children }: { children: ReactNode }) {
         }));
 
         console.log('Mapped students:', mappedStudents);
+        
+        // Extract unique statuses for the filter dropdown
+        const statuses = Array.from(new Set(mappedStudents
+          .map(student => student.statusLista)
+          .filter(status => status !== null && status !== undefined) as string[]
+        ));
+        
+        setAvailableStatuses(statuses);
         setStudents(mappedStudents);
-        setFilteredStudents(mappedStudents);
+        applyFilters(mappedStudents, searchQuery, statusFilter);
       } else {
         console.log('No students data found');
         setStudents([]);
         setFilteredStudents([]);
+        setAvailableStatuses([]);
       }
     } catch (error) {
       console.error('Error fetching students:', error);
@@ -77,9 +91,32 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       // Don't use mock data as fallback - we want to show the error
       setStudents([]);
       setFilteredStudents([]);
+      setAvailableStatuses([]);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Apply both search query and status filter
+  const applyFilters = (studentsList: Student[], query: string, status: string | null) => {
+    let filtered = studentsList;
+    
+    // Apply search query filter if exists
+    if (query) {
+      const lowercaseQuery = query.toLowerCase();
+      filtered = filtered.filter(student => 
+        (student.nomeCompleto?.toLowerCase().includes(lowercaseQuery) || '') || 
+        (student.email?.toLowerCase().includes(lowercaseQuery) || '') || 
+        (student.telefone?.includes(query) || '')
+      );
+    }
+    
+    // Apply status filter if selected
+    if (status) {
+      filtered = filtered.filter(student => student.statusLista === status);
+    }
+    
+    setFilteredStudents(filtered);
   };
 
   // Initial data load
@@ -94,15 +131,12 @@ export function StudentProvider({ children }: { children: ReactNode }) {
 
   const filterStudents = (query: string) => {
     setSearchQuery(query);
-    const lowercaseQuery = query.toLowerCase();
-    
-    const filtered = students.filter(student => 
-      (student.nomeCompleto?.toLowerCase().includes(lowercaseQuery) || '') || 
-      (student.email?.toLowerCase().includes(lowercaseQuery) || '') || 
-      (student.telefone?.includes(query) || '')
-    );
-    
-    setFilteredStudents(filtered);
+    applyFilters(students, query, statusFilter);
+  };
+  
+  const filterByStatus = (status: string | null) => {
+    setStatusFilter(status);
+    applyFilters(students, searchQuery, status);
   };
 
   const updateStudent = (updatedStudent: Student) => {
@@ -111,13 +145,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     );
     
     setStudents(updatedStudents);
-    setFilteredStudents(
-      updatedStudents.filter(student => 
-        (student.nomeCompleto?.toLowerCase().includes(searchQuery.toLowerCase()) || '') || 
-        (student.email?.toLowerCase().includes(searchQuery.toLowerCase()) || '') || 
-        (student.telefone?.includes(searchQuery) || '')
-      )
-    );
+    applyFilters(updatedStudents, searchQuery, statusFilter);
     setSelectedStudent(updatedStudent);
     setIsEditing(false);
     toast.success("Dados do aluno atualizados com sucesso!");
@@ -142,10 +170,13 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       selectedStudent,
       isEditing,
       searchQuery,
+      statusFilter,
+      availableStatuses,
       isLoading,
       error,
       selectStudent,
       filterStudents,
+      filterByStatus,
       updateStudent,
       startEditing,
       cancelEditing,
