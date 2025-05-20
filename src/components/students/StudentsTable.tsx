@@ -36,7 +36,12 @@ export const StudentsTable: React.FC<StudentsTableProps> = ({
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse table-fixed">
+          <colgroup>
+            {columns.map((column) => (
+              <col key={column.id} style={{ width: `${column.width}px` }} />
+            ))}
+          </colgroup>
           <thead className="bg-gray-50 text-gray-700">
             <tr>
               <ResizableHeader 

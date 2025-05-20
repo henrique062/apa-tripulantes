@@ -28,6 +28,8 @@ export const ResizableHeader: React.FC<ResizableHeaderProps> = ({
   useEffect(() => {
     if (!initialWidth && headerRef.current) {
       setWidth(headerRef.current.offsetWidth);
+    } else if (initialWidth) {
+      setWidth(initialWidth);
     }
   }, [initialWidth]);
 
