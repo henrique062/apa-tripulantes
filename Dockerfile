@@ -1,6 +1,6 @@
 
 # Use Node.js as the base image
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -8,8 +8,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies with more verbose output and fallbacks
-RUN npm install --no-fund --no-audit --loglevel verbose
+# Install dependencies with a simpler, more reliable approach
+RUN npm install
 
 # Copy the rest of the code
 COPY . .
