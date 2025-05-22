@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { Student } from '../types/student';
 import { toast } from '@/components/ui/sonner';
 import { supabase } from '@/lib/supabaseClient';
+import { format, parse } from 'date-fns';
 
 interface StudentContextType {
   students: Student[];
@@ -25,6 +26,17 @@ interface StudentContextType {
 
 const StudentContext = createContext<StudentContextType | undefined>(undefined);
 
+// Helper function to format date from database format to DD/MM/YYYY
+const formatDateString = (dateString: string | null): string => {
+  if (!dateString) return '';
+  try {
+    return format(new Date(dateString), 'dd/MM/yyyy');
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return '';
+  }
+};
+
 export function StudentProvider({ children }: { children: ReactNode }) {
   const [students, setStudents] = useState<Student[]>([]);
   const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
@@ -42,10 +54,22 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     console.log('Fetching students from Supabase...');
 
     try {
-      // Query the Supabase table for student data
+      // Query the Supabase table for student data with the additional columns
       const { data, error } = await supabase
         .from('alunos_dados_completos')
-        .select('ID, A_DADOS_P_NOME_COMPLETO, A_DADOS_P_EMAIL_MATRICULA, A_DADOS_P_EMAIL_MATRICULA_HOTMART, A_DADOS_P_TELEFONE, STATUS');
+        .select(`
+          ID, 
+          A_DADOS_P_NOME_COMPLETO, 
+          A_DADOS_P_EMAIL_MATRICULA, 
+          A_DADOS_P_EMAIL_MATRICULA_HOTMART, 
+          A_DADOS_P_TELEFONE, 
+          STATUS,
+          A_DADOS_P_DATA_NASCIMENTO,
+          A_DADOS_P_PAÍS_ORIGEM,
+          A_DADOS_Q_ESCOLARIDADE,
+          A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL,
+          A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA
+        `);
 
       if (error) {
         console.error('Supabase error:', error);
@@ -61,10 +85,15 @@ export function StudentProvider({ children }: { children: ReactNode }) {
           nomeCompleto: item.A_DADOS_P_NOME_COMPLETO,
           email: item.A_DADOS_P_EMAIL_MATRICULA,
           emailHotmart: item.A_DADOS_P_EMAIL_MATRICULA_HOTMART,
-          telefone: item.A_DADOS_P_TELEFONE, // Ensure we're mapping from the correct column
+          telefone: item.A_DADOS_P_TELEFONE,
           statusLista: item.STATUS,
-          fotoPerfil: null, // Explicitly null as we don't have this field in the database
-          // Other fields are undefined for now
+          fotoPerfil: null,
+          // New fields
+          dataNascimento: formatDateString(item.A_DADOS_P_DATA_NASCIMENTO),
+          nacionalidade: item.A_DADOS_P_PAÍS_ORIGEM,
+          formacaoAcademica: item.A_DADOS_Q_ESCOLARIDADE,
+          nivelIngles: item.A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL,
+          dataInscricao: formatDateString(item.A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA)
         }));
 
         console.log('Mapped students:', mappedStudents);
@@ -88,7 +117,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       console.error('Error fetching students:', error);
       setError('Falha ao buscar lista de alunos');
       toast.error("Erro ao carregar alunos");
-      // Don't use mock data as fallback - we want to show the error
       setStudents([]);
       setFilteredStudents([]);
       setAvailableStatuses([]);

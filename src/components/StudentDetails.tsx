@@ -136,10 +136,10 @@ export const StudentDetails = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             {renderTextField("Nome Completo", "nomeCompleto", "Nome completo do aluno")}
             {renderTextField("Email", "email", "Email do aluno")}
+            {renderTextField("Email Hotmart", "emailHotmart", "Email Hotmart do aluno")}
             {renderTextField("Telefone", "telefone", "(99) 99999-9999")}
-            {renderTextField("Data de Nascimento", "dataNascimento", "AAAA-MM-DD")}
-            {renderTextField("Nacionalidade", "nacionalidade", "Nacionalidade do aluno")}
-            {renderTextField("Status Emigratório", "statusEmigratório", "Status emigratório atual")}
+            {renderTextField("Data de Nascimento", "dataNascimento", "DD/MM/YYYY")}
+            {renderTextField("Nacionalidade", "nacionalidade", "País de origem")}
           </div>
         </div>
 
@@ -149,6 +149,7 @@ export const StudentDetails = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             {renderTextField("Formação Acadêmica", "formacaoAcademica", "Formação acadêmica do aluno")}
             {renderTextField("Nível de Inglês", "nivelIngles", "Nível de inglês do aluno")}
+            {renderTextField("Data de Inscrição", "dataInscricao", "DD/MM/YYYY")}
             {renderTextField("Outro Idioma", "outroIdioma", "Outro idioma")}
             {renderTextField("Nível do Outro Idioma", "nivelOutroIdioma", "Nível do outro idioma")}
           </div>
@@ -171,7 +172,6 @@ export const StudentDetails = () => {
         <div>
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Jornada Dentro do Programa</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-            {renderTextField("Data de Inscrição", "dataInscricao", "AAAA-MM-DD")}
             {renderTextField("Status da Jornada", "statusJornada", "Status atual na jornada")}
             {renderTextareaField("Observações", "observacoes", "Observações sobre o aluno")}
           </div>
@@ -193,7 +193,7 @@ export const StudentDetails = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
             {renderTextField("Processos Seletivos", "processosSeletivos", "Empresas onde participa de processos")}
             {renderTextField("Status do Processo", "statusProcesso", "Status atual no processo")}
-            {renderTextField("Data da Entrevista", "dataEntrevista", "AAAA-MM-DD")}
+            {renderTextField("Data da Entrevista", "dataEntrevista", "DD/MM/YYYY")}
           </div>
         </div>
 
@@ -201,7 +201,7 @@ export const StudentDetails = () => {
         <div>
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Pós-Embarque</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-            {renderTextField("Data de Embarque", "dataEmbarque", "AAAA-MM-DD")}
+            {renderTextField("Data de Embarque", "dataEmbarque", "DD/MM/YYYY")}
             {renderTextField("Posição Trabalhada", "posicaoTrabalhada", "Cargo/função a bordo")}
             {renderTextField("Companhia de Cruzeiro", "companhiaCruzeiro", "Nome da companhia")}
             {renderTextField("Navio Atual", "navioAtual", "Nome do navio")}
