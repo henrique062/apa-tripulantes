@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { Student } from '../types/student';
 import { toast } from '@/components/ui/sonner';
@@ -60,7 +61,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
           nomeCompleto: item.A_DADOS_P_NOME_COMPLETO,
           email: item.A_DADOS_P_EMAIL_MATRICULA,
           emailHotmart: item.A_DADOS_P_EMAIL_MATRICULA_HOTMART,
-          telefone: item.A_DADOS_P_TELEFONE,
+          telefone: item.A_DADOS_P_TELEFONE, // Ensure we're mapping from the correct column
           statusLista: item.STATUS,
           fotoPerfil: null, // Explicitly null as we don't have this field in the database
           // Other fields are undefined for now
