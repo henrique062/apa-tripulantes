@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { Student } from '../types/student';
 import { toast } from '@/components/ui/sonner';
@@ -55,21 +54,10 @@ export function StudentProvider({ children }: { children: ReactNode }) {
 
     try {
       // Query the Supabase table for student data with the additional columns
+      // Use the simpler SQL query format to avoid encoding issues
       const { data, error } = await supabase
         .from('alunos_dados_completos')
-        .select(`
-          ID, 
-          A_DADOS_P_NOME_COMPLETO, 
-          A_DADOS_P_EMAIL_MATRICULA, 
-          A_DADOS_P_EMAIL_MATRICULA_HOTMART, 
-          A_DADOS_P_TELEFONE, 
-          STATUS,
-          A_DADOS_P_DATA_NASCIMENTO,
-          A_DADOS_P_PAÍS_ORIGEM,
-          A_DADOS_Q_ESCOLARIDADE,
-          A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL,
-          A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA
-        `);
+        .select('ID, A_DADOS_P_NOME_COMPLETO, A_DADOS_P_EMAIL_MATRICULA, A_DADOS_P_EMAIL_MATRICULA_HOTMART, A_DADOS_P_TELEFONE, STATUS, A_DADOS_P_DATA_NASCIMENTO, "A_DADOS_P_PAÍS_ORIGEM", A_DADOS_Q_ESCOLARIDADE, "A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL", "A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA"');
 
       if (error) {
         console.error('Supabase error:', error);
@@ -90,10 +78,10 @@ export function StudentProvider({ children }: { children: ReactNode }) {
           fotoPerfil: null,
           // New fields
           dataNascimento: formatDateString(item.A_DADOS_P_DATA_NASCIMENTO),
-          nacionalidade: item.A_DADOS_P_PAÍS_ORIGEM,
+          nacionalidade: item["A_DADOS_P_PAÍS_ORIGEM"],
           formacaoAcademica: item.A_DADOS_Q_ESCOLARIDADE,
-          nivelIngles: item.A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL,
-          dataInscricao: formatDateString(item.A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA)
+          nivelIngles: item["A_JORNADA_INGLÊS_AVALIAÇÃO_PESSOAL"],
+          dataInscricao: formatDateString(item["A_INFO_M_DATA_CONFIRMAÇÃO_COMPRA"])
         }));
 
         console.log('Mapped students:', mappedStudents);
